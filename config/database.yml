@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode  
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: alexul #указывается пользователя (роль), через которую будет происходить пожключение к БД
+  password: 'G8se4Tk1' #указывается пароль пользователя (роли)
+
+development:
+  <<: *default
+  database: rails_course_development
+  
+test:
+  <<: *default
+  database: rails_course_test
+
+production:
+  <<: *default
+  database: rails_course_production
+  username: rails_course
+  password: <%= ENV['RAILS_COURSE_DATABASE_PASSWORD'] %>
