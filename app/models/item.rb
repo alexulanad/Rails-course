@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
   validates :price, numericality: { greater_than: -1 }
-  #validates :name, :description, presence: true
+  validates :name, :description, presence: true
 
   after_initialize  {p 'Инициализация'} # Item.new, Item.first, Item.last
   after_save        {p 'Сохранено'}     # Item.save, Item.create
