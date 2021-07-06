@@ -2,8 +2,10 @@ default: &default
   adapter: postgresql
   encoding: unicode  
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: alexul #указывается пользователя (роль), через которую будет происходить пожключение к БД
-  password: 'G8se4Tk1' #указывается пароль пользователя (роли)
+  username: alexul # указывается пользователя (роль), через которую будет происходить пожключение к БД
+  password: G8se4Tk1 # указывается пароль пользователя (роли)
+  host: localhost # устанавливается localhost так, как ведется локальная разработка
+  port: 5432 # основной локальный порт PostgreSQL для доступа и разработки
 
 development:
   <<: *default

@@ -7,8 +7,13 @@ class ItemsController < ApplicationController
     #render body: @items.map {|item| "#{item.name}, #{item.price}, #{item.description}"}    
   end
 
+  def new
+    @item = Item.new
+  end
+
   def create
     item = Item.create(item_params)
+    #redirect_to items_path
     #render json: item.name, status: :created
     if item.persisted? # если item сохранен
       render json: "Данные сохранены" # рендер в формате json
@@ -17,9 +22,11 @@ class ItemsController < ApplicationController
     end    
   end
 
+
   private
 
   def item_params
-    params.permit(:name, :description, :price)
+    params.require(:item).permit(:name, :price, :weight, :description)
+    #params.permit(:name, :price, :weight, :description)
   end
 end

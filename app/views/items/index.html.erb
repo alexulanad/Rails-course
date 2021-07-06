@@ -1,5 +1,8 @@
+<h2>Все записи таблицы items</h2>
+<p><%= link_to "Добавить новую запись", new_item_path %></p><br>
 <ul>
 	<% @items.each do |item| %>
+		<li><%= item.id %></li>
 		<li><%= item.name %></li>
 		<li><%= item.price %></li>
 		<li><%= item.description %></li><br>
