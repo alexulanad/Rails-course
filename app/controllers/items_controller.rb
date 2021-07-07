@@ -43,13 +43,21 @@ class ItemsController < ApplicationController
   end
 
   def update    
-    Item.find(params[:id]).update(item_params)    
-    redirect_to item_path(params[:id])
+    item = Item.find(params[:id])
+    if item.update(item_params)
+      redirect_to item_path
+    else
+      render json: item.errors
+    end
   end
 
-  def destroy    
-    Item.find(params[:id]).destroy    
-    redirect_to items_path
+  def destroy
+    item = Item.find(params[:id])
+    if item.destroy    
+      redirect_to items_path
+    else
+      render json: item.errors
+    end    
   end
 
   private
