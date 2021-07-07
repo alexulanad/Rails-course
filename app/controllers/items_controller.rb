@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  layout false
+  #layout false
   skip_before_action :verify_authenticity_token
 
   def index
@@ -24,7 +24,18 @@ class ItemsController < ApplicationController
 
   def show
     # Rails переходит на метод show, после того, как перехватывает из браузера маршрут вида /items/:id где :id - номер записи в базе данных, и сохраняет этот id в хеше params для дальнейшего использования
-    @item = Item.find(params[:id]) # Поиск записи в базе данных по id, переданного в хеше params. Сохраняет в переменной экземпляра массив с хешем данных найденного объекта
+    @item = Item.find(params[:id]) # Поиск записи в базе данных по id, переданного в хеше params. Сохраняет в переменной экземпляра массив с хешем данных найденного объекта        
+  end
+
+  def edit
+  end
+
+  def update
+  end
+
+  def destroy    
+    Item.find(params[:id]).destroy    
+    redirect_to items_path
   end
 
   private

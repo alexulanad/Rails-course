@@ -1,4 +1,4 @@
-<h2>Добавить новую запись в таблицу items</h2>
+<h2>Запись в таблице items</h2>
 
 <p><%= @item.name %></p>
 <p><%= @item.price %></p>
@@ -7,3 +7,4 @@
 
 <%= link_to "Назад", items_path %>
 <%= link_to "Редактировать", edit_item_path %>
+<%= link_to "Удалить", item_path(@item.id), method: :delete %>

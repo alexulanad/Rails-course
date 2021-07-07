@@ -1,5 +1,6 @@
 <h2>Все записи таблицы items</h2>
 <p><%= link_to "Добавить новую запись", new_item_path %></p><br>
+
 <% @items.each do |item| %>
 	<%= item.id %>
 	<%= link_to item.name, item_path(item) %>
@@ -7,5 +8,6 @@
 	<%= item.weight %>
 	<%= item.description %>
 	<%= link_to "Редактировать", edit_item_path(item) %>
-	<%= link_to "Удалить",  item_path(item), method: :delete %><br>
+	<%= link_to "Удалить", item_path(item), method: :delete %>
+	<br>
 <% end %>
