@@ -1,0 +1,18 @@
+<h2>Редактирование записи: <%= @item.id %>. <%= @item.name %></h2>
+
+<%= form_with model: @item do |form| %>
+	<%= form.label :name, "Название продукта:" %>
+	<%= form.text_field :name %>
+	<br>
+	<%= form.label :price, "Цена:" %>
+	<%= form.text_field :price %>
+	<br>
+	<%= form.label :weight, "Вес:" %>
+	<%= form.text_field :weight %>
+	<br>
+	<%= form.label :description, "Описание:" %>
+	<%= form.text_field :description %>
+	<br><br>
+	<%= form.submit "Сохранить"%>
+	<%= link_to "Назад", item_path(@item) %>
+<% end %>

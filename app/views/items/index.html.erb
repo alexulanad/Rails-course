@@ -1,5 +1,6 @@
 <h2>Все записи таблицы items</h2>
 <p><%= link_to "Добавить новую запись", new_item_path %></p><br>
+<p><%= link_to "Быстрое добавление записи", items_path(:name => "Запись", :price => "200", :weight => "200", :description => "Описание"), method: :post %></p>
 
 <% @items.each do |item| %>
 	<%= item.id %>
