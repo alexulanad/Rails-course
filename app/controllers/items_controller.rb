@@ -4,12 +4,13 @@ class ItemsController < ApplicationController
 
   # перед выполнение action: show, edit, update, destroy вызывает метод find_item 
   # из которого возвращается найденный элемент модели item  
-  before_action :find_item, only: %i[show edit update destroy]
+  before_action :find_item, only: %i[show edit update destroy upvote]
+  # для контроллеров new..destroy проходит предварительную проверку на наличие admin в params
+  before_action :admin?, only: %i[destroy] # new create edit update добавить в [] по необходимости
   after_action :information, onli: [:index] # вызывается после выполнения action-а index
 
   def index
-    @items = Item.all
-    #render body: @items.map {|item| "#{item.name}, #{item.price}, #{item.description}"}    
+    @items = Item.all.sort_by {|key| key[:id]} # Все элементы из таблицы Items сортируем по ключу :id элементов
   end
 
   def new
@@ -17,7 +18,13 @@ class ItemsController < ApplicationController
   end
 
   def upvote # метод дял голосования
-    render json: "Страница экшена upvote"
+    @item.increment! :votes_count # увеличить число по ключу votes_count на 1
+    redirect_to items_path
+  end
+
+  def expensive
+    @items = Item.where('price > 50') # price: > 50 не заработало бы, поэтому формляется, как запрос SQL в виде строки
+    render :index # отрендерить представление view, без перезагрузки контроллера, если сделать redirect_to :index то он подгрузит контроллер index и переменной @items передадутся все элементы таблицы
   end
 
   def create
@@ -55,15 +62,15 @@ class ItemsController < ApplicationController
     if @item.update(item_params)
       redirect_to item_path
     else
-      render json: item.errors
-    end
+      render json: item.errors, status: :unprocessable_entity # необработанный объект
+    end 
   end
 
   def destroy    
     if @item.destroy.destroyed?    
       redirect_to items_path
     else
-      render json: item.errors
+      render json: item.errors, status: :unprocessable_entity # необработанный объект
     end    
   end
 
@@ -75,7 +82,17 @@ class ItemsController < ApplicationController
   end
 
   def find_item
-    @item = Item.find(params[:id])
+    @item = Item.where(id: params[:id]).first # найти элемнт, где id = params.id первый из списка
+    #@item = Item.find(params[:id])
+    render_404 unless @item # рендерит метод главного контроллера render_404 если @item не найден    
+  end
+
+  def admin? # приватный метод для проверки на админа (вызывается из before_action)
+    #true
+    # если в строке браузера передать дополнительную ключ в paramsс в виде ?admin=1
+    # то доступ будет открыт, в противном случае выведет сообщение "Доступ запрещен"    
+    #render json: 'Доступ запрещен', status: :forbidden unless params[:admin]
+    render_403 unless params[:admin]
   end
 
   def information

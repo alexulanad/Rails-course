@@ -1,14 +1,31 @@
 <h2>Все записи таблицы items</h2>
-<p><%= link_to "Добавить новую запись", new_item_path %></p><br>
-<p><%= link_to "Быстрое добавление записи", items_path(:name => "Запись", :price => "200", :weight => "200", :description => "Описание"), method: :post %></p>
+
+<%= @items.inspect %>
+<table>
+<tr>
+	<th>№</th>
+	<th>Наименование</th>
+	<th>Цена</th>
+	<th>Вес</th>
+	<th>Описание</th>
+	<th>Рейтинг</th>
+	<th>Редактирование</th>
+	<th>Удаление</th>
+</tr>
 
 <% @items.each do |item| %>
-	<%= item.id %>
-	<%= link_to item.name, item_path(item) %>
-	<%= item.price %>
-	<%= item.weight %>
-	<%= item.description %>
-	<%= link_to "Редактировать", edit_item_path(item) %>
-	<%= link_to "Удалить", item_path(item), method: :delete %>
-	<br>
+	<tr>
+		<td><%= item.id %></td>
+		<td><%= link_to item.name, item_path(item) %></td>
+		<td><%= item.price %></td>
+		<td><%= item.weight %></td>
+		<td><%= item.description %></td>
+		<td><%= item.votes_count %> <%= link_to "+", upvote_item_path(item) %></td>
+		<td><%= link_to "Редактировать", edit_item_path(item) %></td>
+		<td><%= link_to "Удалить", item_path(item), method: :delete %></td>
+	</tr>
 <% end %>
+</table>
+<p><%= link_to "Добавить новую запись", new_item_path %></p>
+<p><%= link_to "Быстрое добавление записи", items_path(:name => "Запись", :price => "200", :weight => "200", :description => "Описание"), method: :post %></p>
+<p><%= link_to "Отобразить дорогие", expensive_items_path %></p>
